@@ -21,6 +21,16 @@ const Header = styled.div`
   border: 1px solid #ba4111;
 `
 
+const Title = styled.div`
+  height: 20px;
+  background-color: #ff8401;
+  border-radius: 5px;
+  padding-left: 7px;
+  font-weight: 900;
+  font-family: Comic Sans MS, cursive;
+  float: left;
+`
+
 const StyledButton = styled.button`
   height: 23px;
   border: none;
@@ -79,6 +89,7 @@ const StickyNotes = () => {
         return (
           <Container x={note.x} y={note.y}>
             <Header>
+              <Title>NOTE</Title>
               <StyledButton onClick={handleDelete}>
                 <RiCloseCircleFill size={20} />
               </StyledButton>
