@@ -1,7 +1,10 @@
+/* global chrome */
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import { RiCloseCircleFill } from 'react-icons/ri'
 import styled from 'styled-components'
+import { ShadowRoot } from './ShadowRoot'
+import { localMode } from './constants'
 
 const Container = styled.div`
   z-index: 2;
@@ -50,7 +53,9 @@ const StyledTextArea = styled.textarea`
 
 const StickyNotes = () => {
   const [notes, setNotes] = useState([])
+  const url = window.location.href
 
+  //shift+l_click for note
   useEffect(() => {
     const clickListener = (e) => {
       if (e.shiftKey) {
@@ -60,6 +65,24 @@ const StickyNotes = () => {
     document.addEventListener('click', clickListener)
     return () => document.removeEventListener('click', clickListener)
   }, [])
+
+  // get
+  useEffect(() => {
+    if (!localMode) {
+      chrome.storage.local.get(url, (items) => {
+        items[url] && setNotes(items[url])
+      })
+    }
+  }, [])
+
+  // set
+  useEffect(() => {
+    if (!localMode) {
+      notes.length > 0
+        ? chrome.storage.local.set({ [url]: notes })
+        : chrome.storage.local.remove(url)
+    }
+  }, [notes])
 
   return (
     <div>
@@ -88,18 +111,20 @@ const StickyNotes = () => {
         }
 
         return (
-          <Container x={note.x} y={note.y}>
-            <Header>
-              <Title>Note</Title>
-              <StyledButton onClick={handleDelete}>
-                <RiCloseCircleFill size={20} />
-              </StyledButton>
-            </Header>
-            <StyledTextArea
-              onChange={handleChange}
-              note={note.note ? note.note : ''}
-            />
-          </Container>
+          <ShadowRoot>
+            <Container x={note.x} y={note.y} className='react-sticky-note'>
+              <Header>
+                <Title>Note</Title>
+                <StyledButton onClick={handleDelete}>
+                  <RiCloseCircleFill size={20} />
+                </StyledButton>
+              </Header>
+              <StyledTextArea
+                onChange={handleChange}
+                note={note.note ? note.note : ''}
+              />
+            </Container>
+          </ShadowRoot>
         )
       })}
     </div>
