@@ -1,10 +1,7 @@
 /* global chrome */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
 import { localMode } from "./constants";
-
-// const sampleNotesShape = { "someUrl": [{ note: "some text", x: 100, y: 100 }] };
 
 const ListNoMarker = styled.ul`
   list-style-type: none;
