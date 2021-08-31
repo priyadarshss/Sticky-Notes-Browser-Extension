@@ -7,7 +7,9 @@
 4. Click on "Load unpacked" and open the "Build" directory from the cloned repository.
  The extension is now enabled and you can "shift key + left click" to bring up a note.
 
-_________________________________________________________________________________________________________________-
+_________________________________________________________________________________________________________________
+
+
 In the project directory, you can run:
 
 ### `yarn start`
